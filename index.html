@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pondok Uni Kito - Kuliner Otentik Khas Minang & Sarolangun</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        maroon: {
+                            50: '#fdf2f2',
+                            100: '#fde8e8',
+                            500: '#981b1e',
+                            600: '#801417',
+                            700: '#681012',
+                            800: '#4d0b0e',
+                            900: '#340608',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #981b1e;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-amber-50/40 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col justify-between">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-amber-200/50 dark:border-gray-800 shadow-sm transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo & Brand -->
+            <a href="#" class="flex items-center gap-3 group">
+                <!-- SVG Logo Pondok Uni Kito (Rumah Gadang Silhouette & Plate Accent) -->
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-maroon-600 to-maroon-800 p-2 shadow-md flex items-center justify-center transform group-hover:scale-105 transition-transform">
+                    <svg class="w-full h-full text-gold-400 fill-current" viewBox="0 0 100 100">
+                        <!-- Roof / Gonjong Minang -->
+                        <path d="M10 50 Q 30 20 50 35 Q 70 20 90 50 L 82 55 Q 50 25 18 55 Z" />
+                        <path d="M25 40 Q 50 10 75 40 L 70 45 Q 50 20 30 45 Z" />
+                        <!-- House Body -->
+                        <rect x="25" y="52" width="50" height="28" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+                        <!-- Windows & Detail -->
+                        <rect x="33" y="60" width="10" height="12" fill="currentColor"/>
+                        <rect x="57" y="60" width="10" height="12" fill="currentColor"/>
+                        <circle cx="50" cy="78" r="4" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-extrabold tracking-tight text-maroon-600 dark:text-gold-400 block leading-tight">Pondok Uni Kito</span>
+                    <span class="text-xs text-amber-700 dark:text-gray-400 font-medium tracking-wide">Cita Rasa Otentik Minang & Sumatra</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 font-medium text-sm">
+                <a href="#menu" class="hover:text-maroon-600 dark:hover:text-gold-400 transition-colors">Daftar Menu</a>
+                <a href="#cara-pesan" class="hover:text-maroon-600 dark:hover:text-gold-400 transition-colors">Cara Pesan</a>
+                <a href="#tracking" class="hover:text-maroon-600 dark:hover:text-gold-400 transition-colors">Lacak Pesanan</a>
+                <a href="#lokasi" class="hover:text-maroon-600 dark:hover:text-gold-400 transition-colors">Lokasi & Maps</a>
+                <a href="#ulasan" class="hover:text-maroon-600 dark:hover:text-gold-400 transition-colors">Ulasan</a>
+            </nav>
+
+            <!-- Actions & Utility Buttons -->
+            <div class="flex items-center gap-3">
+                <!-- Dark Mode Toggle Button -->
+                <button id="theme-toggle" class="p-2.5 rounded-xl bg-amber-100 dark:bg-gray-800 text-amber-900 dark:text-gold-400 hover:bg-amber-200 dark:hover:bg-gray-700 transition-colors" title="Ubah Tema">
+                    <i id="theme-toggle-dark-icon" class="fas font-solid fa-moon text-lg hidden"></i>
+                    <i id="theme-toggle-light-icon" class="fas font-solid fa-sun text-lg hidden"></i>
+                </button>
+
+                <!-- Cart Toggle Button -->
+                <button onclick="toggleCartModal()" class="relative p-2.5 bg-maroon-600 text-white rounded-xl hover:bg-maroon-700 transition-all flex items-center gap-2 shadow-md hover:shadow-lg active:scale-95">
+                    <i class="fas fa-shopping-basket text-lg"></i>
+                    <span class="hidden sm:inline font-semibold text-sm">Keranjang</span>
+                    <span id="cart-count-badge" class="absolute -top-1.5 -right-1.5 bg-gold-500 text-gray-900 font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">0</span>
+                </button>
+
+                <!-- Mobile Navigation Toggle -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 pt-2 pb-4 space-y-2">
+            <a href="#menu" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800">Daftar Menu</a>
+            <a href="#cara-pesan" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800">Cara Pesan</a>
+            <a href="#tracking" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800">Lacak Pesanan</a>
+            <a href="#lokasi" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800">Lokasi & Maps</a>
+            <a href="#ulasan" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-md font-medium text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800">Ulasan</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-gradient-to-r from-maroon-900 via-maroon-800 to-maroon-900 text-white py-16 lg:py-24 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 text-center md:text-left">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-gold-500/20 text-gold-400 border border-gold-500/30 font-semibold text-xs uppercase tracking-wider">
+                    <i class="fas fa-fire text-amber-400 mr-1.5"></i> Spesialis Kepala Ikan Baung & Ayam Kampung
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-black leading-tight">
+                    Kelezatan Otentik <span class="text-gold-400 underline decoration-gold-500/50">Pondok Uni Kito</span>
+                </h1>
+                <p class="text-amber-100 text-base sm:text-lg font-normal leading-relaxed">
+                    Nikmati sajian khas Minang & Sumatra dengan rempah-rempah pilihan. Mulai dari Gulai Rebung Kepala Ikan Baung yang gurih, Tempoyak lezat, hingga Dendeng Batokok pedas mantap!
+                </p>
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
+                    <a href="#menu" class="px-6 py-3.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-gray-950 font-bold shadow-lg hover:shadow-amber-500/30 transition-all flex items-center gap-2">
+                        <i class="fas fa-utensils"></i> Pesan Sekarang
+                    </a>
+                    <a href="https://wa.me/6282178261466" target="_blank" class="px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg hover:shadow-emerald-600/30 transition-all flex items-center gap-2">
+                        <i class="fab fa-whatsapp text-lg"></i> Konsultasi Admin
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Feature Cards Overlay -->
+            <div class="relative flex justify-center">
+                <div class="w-full max-w-md bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl relative">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 bg-white/10 p-3 rounded-xl border border-white/10">
+                            <div class="p-3 bg-gold-500 rounded-lg text-gray-900 text-xl font-bold"><i class="fas fa-fish"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white">Spesial Ikan Baung Segar</h4>
+                                <p class="text-xs text-amber-200">Gulai Rebung & Tempoyak Terfavorit</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/10 p-3 rounded-xl border border-white/10">
+                            <div class="p-3 bg-emerald-500 rounded-lg text-white text-xl font-bold"><i class="fas fa-truck-fast"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white">Antar Langsung / Penjemputan</h4>
+                                <p class="text-xs text-amber-200">Bisa Ambil Sendiri di Gerai Bernai</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/10 p-3 rounded-xl border border-white/10">
+                            <div class="p-3 bg-blue-500 rounded-lg text-white text-xl font-bold"><i class="fas fa-wallet"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white">Pembayaran Lengkap</h4>
+                                <p class="text-xs text-amber-200">Transfer Bank, QRIS, E-Wallet & COD</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU CATALOG SECTION -->
+    <section id="menu" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-maroon-700 dark:text-gold-400">Daftar Menu Pilihan</h2>
+            <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm sm:text-base">Silakan pilih hidangan istimewa dari Pondok Uni Kito dan tambahkan ke keranjang belanja Anda.</p>
+            
+            <!-- Category Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-2 mt-6" id="category-filters">
+                <button onclick="filterCategory('semua')" class="cat-btn active px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-maroon-600 text-white shadow-sm" data-category="semua">Semua Menu</button>
+                <button onclick="filterCategory('ikan')" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-amber-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-category="ikan">Olahan Ikan Baung</button>
+                <button onclick="filterCategory('ayam')" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-amber-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-category="ayam">Olahan Ayam</button>
+                <button onclick="filterCategory('pendamping')" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-amber-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-category="pendamping">Pendamping & Sambal</button>
+                <button onclick="filterCategory('minuman')" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-amber-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700" data-category="minuman">Minuman Segar</button>
+            </div>
+        </div>
+
+        <!-- Menu Grid Dynamic Container -->
+        <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Menu items will be injected dynamically via JavaScript -->
+        </div>
+    </section>
+
+    <!-- ORDERING STEPS & PICKUP OPTIONS -->
+    <section id="cara-pesan" class="bg-amber-100/50 dark:bg-gray-800/50 py-16 border-y border-amber-200/60 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-maroon-700 dark:text-gold-400">Pesan Mudah & Fleksibel</h2>
+                <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm sm:text-base">Dua pilihan kenyamanan transaksi untuk memanjakan lidah Anda.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Delivery Card -->
+                <div class="bg-white dark:bg-gray-900 p-6 sm:p-8 rounded-2xl shadow-sm border border-amber-200/50 dark:border-gray-700 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-maroon-100 dark:bg-maroon-900/50 text-maroon-600 dark:text-gold-400 flex items-center justify-center text-2xl mb-4">
+                            <i class="fas fa-motorcycle"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">1. Layanan Delivery (Pesan Antar)</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                            Pesanan disiap di dapur kami dan diantar langsung oleh kurir ke alamat pengiriman Anda di area Sarolangun & sekitarnya.
+                        </p>
+                    </div>
+                    <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-2 border-t border-gray-100 dark:border-gray-800 pt-4">
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Pengiriman cepat & tetap hangat</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Opsi Pembayaran Lengkap / COD</li>
+                    </ul>
+                </div>
+
+                <!-- Self Pickup Card -->
+                <div class="bg-white dark:bg-gray-900 p-6 sm:p-8 rounded-2xl shadow-sm border border-amber-200/50 dark:border-gray-700 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-600 dark:text-gold-400 flex items-center justify-center text-2xl mb-4">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">2. Penjemputan Mandiri (Takeaway)</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                            Pesan secara online untuk menghemat waktu tunggu. Ambil langsung hidangan yang telah siap di gerai Pondok Uni Kito Bernai.
+                        </p>
+                    </div>
+                    <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-2 border-t border-gray-100 dark:border-gray-800 pt-4">
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Bebas biaya ongkir</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i>Siap diambil sesuai estimasi waktu</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REAL-TIME ORDER TRACKING SECTION -->
+    <section id="tracking" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 sm:p-10 shadow-lg border border-amber-200/60 dark:border-gray-800">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="text-xs font-bold px-3 py-1 bg-amber-100 dark:bg-gray-800 text-maroon-600 dark:text-gold-400 rounded-full uppercase">Fitur Lacak</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Pelacakan Pesanan Real-Time</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Masukkan Nomor Pesanan Anda (Misal: <span class="font-mono text-maroon-600 dark:text-gold-400">PUK-8821</span>) untuk memantau status masakan Anda secara langsung.</p>
+            </div>
+
+            <!-- Tracking Search Form -->
+            <div class="flex max-w-md mx-auto mb-8">
+                <input type="text" id="track-id-input" placeholder="Contoh: PUK-8821" value="PUK-8821" class="w-full px-4 py-3 rounded-l-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-maroon-500">
+                <button onclick="simulateTracking()" class="px-6 py-3 bg-maroon-600 hover:bg-maroon-700 text-white font-semibold rounded-r-xl transition-colors">Lacak</button>
+            </div>
+
+            <!-- Status Timeline Display -->
+            <div id="tracking-display" class="bg-amber-50/50 dark:bg-gray-800/50 rounded-2xl p-6 border border-amber-200/40 dark:border-gray-700">
+                <div class="flex flex-wrap justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 gap-2">
+                    <div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Kode ID Pesanan:</p>
+                        <p id="track-order-code" class="font-mono font-bold text-lg text-maroon-600 dark:text-gold-400">PUK-8821</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Estimasi Waktu:</p>
+                        <p id="track-eta" class="font-semibold text-emerald-600 dark:text-emerald-400 text-sm">~ 20 - 30 Menit</p>
+                    </div>
+                </div>
+
+                <!-- Progress Steps Bar -->
+                <div class="relative py-4">
+                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200 dark:bg-gray-700">
+                        <div id="track-progress-bar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500 transition-all duration-700 w-2/4"></div>
+                    </div>
+
+                    <div class="grid grid-cols-4 text-center text-xs font-semibold text-gray-600 dark:text-gray-300">
+                        <div id="step-1" class="space-y-1 text-emerald-600 dark:text-emerald-400">
+                            <div class="w-8 h-8 mx-auto rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm shadow"><i class="fas fa-receipt"></i></div>
+                            <span>Pesanan Diterima</span>
+                        </div>
+                        <div id="step-2" class="space-y-1 text-emerald-600 dark:text-emerald-400">
+                            <div class="w-8 h-8 mx-auto rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm shadow"><i class="fas fa-fire-burner"></i></div>
+                            <span>Proses Dapur</span>
+                        </div>
+                        <div id="step-3" class="space-y-1 text-gray-400">
+                            <div class="w-8 h-8 mx-auto rounded-full bg-gray-300 dark:bg-gray-700 text-gray-500 flex items-center justify-center text-sm"><i class="fas fa-truck-ramp-box"></i></div>
+                            <span>Siap / Pengiriman</span>
+                        </div>
+                        <div id="step-4" class="space-y-1 text-gray-400">
+                            <div class="w-8 h-8 mx-auto rounded-full bg-gray-300 dark:bg-gray-700 text-gray-500 flex items-center justify-center text-sm"><i class="fas fa-circle-check"></i></div>
+                            <span>Selesai</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & GOOGLE MAPS INTEGRATION -->
+    <section id="lokasi" class="bg-amber-100/40 dark:bg-gray-800/40 py-16 border-t border-amber-200/50 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 items-stretch">
+                <!-- Location Info Box -->
+                <div class="bg-white dark:bg-gray-900 p-6 sm:p-8 rounded-3xl shadow-md border border-amber-200/50 dark:border-gray-700 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold px-3 py-1 bg-maroon-100 dark:bg-maroon-900/50 text-maroon-600 dark:text-gold-400 rounded-full uppercase">Kunjungi Kami</span>
+                        <h2 class="text-2xl font-extrabold text-maroon-800 dark:text-gold-400 mt-3 mb-4">Lokasi Outlet Utama</h2>
+                        
+                        <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-map-marker-alt text-maroon-600 dark:text-gold-400 mt-1 text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-gray-900 dark:text-gray-100">Alamat Lengkap:</p>
+                                    <p class="mt-0.5">Pondok Uni Kito, Bernai, Kec. Sarolangun, Kabupaten Sarolangun, Jambi 37481</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-clock text-maroon-600 dark:text-gold-400 mt-1 text-lg"></i>
+                                <div>
+                                    <p class="font-bold text-gray-900 dark:text-gray-100">Jam Operasional:</p>
+                                    <p class="mt-0.5">Senin - Minggu: 09:00 - 21:00 WIB</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <i class="fab fa-whatsapp text-emerald-600 text-lg mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-900 dark:text-gray-100">Kontak Whatsapp Admin:</p>
+                                    <p class="mt-0.5">+62 821-7826-1466</p>
+                                    <p>+62 813-8747-2380</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.google.com/?q=Pondok+Uni+Kito+Bernai+Sarolangun+Jambi" target="_blank" class="mt-6 w-full py-3 bg-maroon-600 hover:bg-maroon-700 text-white font-bold rounded-xl text-center shadow transition-colors block">
+                        <i class="fas fa-directions mr-2"></i> Buka Petunjuk Arah
+                    </a>
+                </div>
+
+                <!-- Embedded Google Map -->
+                <div class="md:col-span-2 rounded-3xl overflow-hidden shadow-md border border-amber-200/50 dark:border-gray-700 min-h-[350px]">
+                    <iframe 
+                        title="Pondok Uni Kito Location Map"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15951.123456789!2d102.723000!3d-2.300000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMsKwMTgnMDAuMCJTIDEwMsKwNDMnMjIuOCJF!5e0!3m2!1sid!2sid!4v1680000000000!5m2!1sid!2sid" 
+                        class="w-full h-full min-h-[350px] border-0" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS & TESTIMONIALS SECTION -->
+    <section id="ulasan" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-xs font-bold px-3 py-1 bg-gold-500/20 text-gold-600 dark:text-gold-400 rounded-full uppercase">Suara Pelanggan</span>
+            <h2 class="text-3xl font-extrabold text-maroon-700 dark:text-gold-400 mt-2">Ulasan & Kesan Pembeli</h2>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Pengalaman kuliner pelanggan yang telah menikmati sajian khas Pondok Uni Kito.</p>
+        </div>
+
+        <div id="reviews-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic Testimonials injected by JS -->
+        </div>
+    </section>
+
+    <!-- SHOPPING CART / CHECKOUT MODAL -->
+    <div id="cart-modal" class="fixed inset-0 z-50 hidden bg-gray-900/60 backdrop-blur-sm flex justify-end transition-opacity">
+        <div class="w-full max-w-md bg-white dark:bg-gray-900 h-full flex flex-col shadow-2xl overflow-hidden border-l border-amber-200 dark:border-gray-800">
+            
+            <!-- Cart Header -->
+            <div class="p-5 bg-maroon-700 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-xl text-gold-400"></i>
+                    <h3 class="font-extrabold text-lg">Keranjang Belanja</h3>
+                </div>
+                <button onclick="toggleCartModal()" class="text-amber-200 hover:text-white p-1 text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-5 space-y-4" id="cart-items-container">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Cart Checkout Form Footer -->
+            <div id="cart-footer" class="p-5 bg-amber-50 dark:bg-gray-800 border-t border-amber-200/60 dark:border-gray-700 space-y-4">
+                
+                <!-- Service Type Options -->
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-600 dark:text-gray-300 mb-1.5">Layanan Pesanan:</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="order_type" value="Delivery" checked onclick="toggleAddressField(true)" class="peer sr-only">
+                            <div class="p-2.5 rounded-xl border text-center text-xs font-bold peer-checked:bg-maroon-600 peer-checked:text-white peer-checked:border-maroon-600 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900">
+                                <i class="fas fa-motorcycle mr-1"></i> Delivery (Pesan Antar)
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="order_type" value="Takeaway" onclick="toggleAddressField(false)" class="peer sr-only">
+                            <div class="p-2.5 rounded-xl border text-center text-xs font-bold peer-checked:bg-maroon-600 peer-checked:text-white peer-checked:border-maroon-600 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900">
+                                <i class="fas fa-store mr-1"></i> Ambil Mandiri
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Payment Method Options -->
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-600 dark:text-gray-300 mb-1.5">Metode Pembayaran:</label>
+                    <select id="payment-method" class="w-full px-3 py-2 rounded-xl text-xs border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:outline-none">
+                        <option value="Transfer Bank (BCA/Mandiri/BRI/BNI)">Transfer Bank (BCA / Mandiri / BRI / BNI)</option>
+                        <option value="E-Wallet (Gopay/OVO/Dana/ShopeePay)">E-Wallet (Gopay / OVO / DANA / ShopeePay)</option>
+                        <option value="QRIS Direct">QRIS All Payment</option>
+                        <option value="COD (Bayar di Tempat)">COD (Bayar Saat Diterima)</option>
+                    </select>
+                </div>
+
+                <!-- Customer Details Input -->
+                <div class="space-y-2">
+                    <input type="text" id="cust-name" placeholder="Nama Lengkap Pemesan *" class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+                    <input type="text" id="cust-phone" placeholder="Nomor Whatsapp *" class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+                    <textarea id="cust-address" placeholder="Alamat Lengkap Pengiriman (Nomor rumah, jalan, patokan) *" rows="2" class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"></textarea>
+                </div>
+
+                <!-- Price Summary -->
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between items-center">
+                    <span class="font-bold text-sm">Total Pembayaran:</span>
+                    <span id="cart-total-price" class="font-black text-lg text-maroon-700 dark:text-gold-400">Rp 0</span>
+                </div>
+
+                <!-- Submit WhatsApp Button -->
+                <button onclick="processOrderWhatsApp()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2 text-sm">
+                    <i class="fab fa-whatsapp text-lg"></i> Kirim Pesanan via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ITEM REVIEW MODAL -->
+    <div id="item-review-modal" class="fixed inset-0 z-50 hidden bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 max-w-md w-full shadow-2xl border border-amber-200 dark:border-gray-800 relative">
+            <button onclick="closeProductReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <h3 class="text-xl font-bold text-maroon-700 dark:text-gold-400 mb-1" id="review-product-title">Tulis Ulasan Produk</h3>
+            <p class="text-xs text-gray-500 mb-4">Bagikan pengalaman Anda menikmati hidangan ini.</p>
+
+            <form onsubmit="submitProductReview(event)" class="space-y-4">
+                <input type="hidden" id="review-product-id">
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 dark:text-gray-300 mb-1">Rating Anda:</label>
+                    <div class="flex gap-2 text-2xl text-amber-400" id="star-rating-selector">
+                        <i class="fas fa-star cursor-pointer hover:scale-110 transition-transform" onclick="setRating(1)"></i>
+                        <i class="fas fa-star cursor-pointer hover:scale-110 transition-transform" onclick="setRating(2)"></i>
+                        <i class="fas fa-star cursor-pointer hover:scale-110 transition-transform" onclick="setRating(3)"></i>
+                        <i class="fas fa-star cursor-pointer hover:scale-110 transition-transform" onclick="setRating(4)"></i>
+                        <i class="fas fa-star cursor-pointer hover:scale-110 transition-transform" onclick="setRating(5)"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 dark:text-gray-300 mb-1">Nama Anda:</label>
+                    <input type="text" id="reviewer-name" required placeholder="Nama Anda" class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 dark:text-gray-300 mb-1">Ulasan Ulasan:</label>
+                    <textarea id="reviewer-comment" required rows="3" placeholder="Rasanya lezat, bumbunya meresap..." class="w-full px-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 bg-maroon-600 hover:bg-maroon-700 text-white font-bold rounded-xl text-sm shadow">Kirim Ulasan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FLOATING LIVE CHAT WIDGET -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+        
+        <!-- Live Chat Box Toggle Content -->
+        <div id="live-chat-box" class="hidden w-80 sm:w-90 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-amber-200 dark:border-gray-800 overflow-hidden flex flex-col h-96 transition-all">
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-maroon-700 to-maroon-900 text-white p-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="relative">
+                        <div class="w-8 h-8 rounded-full bg-gold-400 text-gray-900 font-bold flex items-center justify-center text-xs">CS</div>
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xs">Admin Pondok Uni Kito</h4>
+                        <p class="text-[10px] text-amber-200">Online | Konsultasi Kendala</p>
+                    </div>
+                </div>
+                <button onclick="toggleLiveChat()" class="text-amber-200 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- Chat Messages Log -->
+            <div id="chat-messages" class="flex-1 p-3 overflow-y-auto space-y-3 bg-amber-50/30 dark:bg-gray-800/40 text-xs">
+                <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border border-amber-100 dark:border-gray-700 shadow-sm max-w-[85%]">
+                    Halo! Selamat datang di Pondok Uni Kito. Ada yang bisa kami bantu terkait pesanan atau menu kami hari ini? 😊
+                </div>
+            </div>
+
+            <!-- Chat Input Form -->
+            <form onsubmit="sendChatMessage(event)" class="p-2 border-t border-amber-200/60 dark:border-gray-800 flex gap-2 bg-white dark:bg-gray-900">
+                <input type="text" id="chat-input" placeholder="Tulis pesan Anda..." class="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-800 text-xs rounded-xl border-0 focus:ring-1 focus:ring-maroon-500 text-gray-900 dark:text-gray-100">
+                <button type="submit" class="px-3 py-2 bg-maroon-600 hover:bg-maroon-700 text-white rounded-xl text-xs font-bold"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+
+        <!-- Chat Trigger Buttons Bar -->
+        <div class="flex items-center gap-2">
+            <!-- WA Direct Quick Button -->
+            <a href="https://wa.me/6282178261466" target="_blank" class="p-3.5 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-all hover:scale-110 flex items-center justify-center" title="Chat WhatsApp Admin">
+                <i class="fab fa-whatsapp text-2xl"></i>
+            </a>
+            <!-- Live Support Widget Trigger -->
+            <button onclick="toggleLiveChat()" class="p-3.5 bg-maroon-600 text-white rounded-full shadow-lg hover:bg-maroon-700 transition-all hover:scale-110 flex items-center justify-center" title="Live Chat Admin">
+                <i class="fas fa-comments text-2xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER SECTION -->
+    <footer class="bg-maroon-900 text-amber-100/80 text-xs py-10 border-t border-maroon-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <h4 class="text-white font-extrabold text-base mb-3">Pondok Uni Kito</h4>
+                <p class="leading-relaxed">Sajian otentik khas Minang & Sumatra di Bernai, Sarolangun. Mengutamakan bahan baku berkualitas dan resep tradisional nusantara.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-extrabold text-base mb-3">Kontak & Pemesanan</h4>
+                <p class="mb-1"><i class="fab fa-whatsapp text-emerald-400 mr-2"></i> +62 821-7826-1466</p>
+                <p class="mb-1"><i class="fab fa-whatsapp text-emerald-400 mr-2"></i> +62 813-8747-2380</p>
+                <p><i class="fas fa-map-pin text-gold-400 mr-2"></i> Bernai, Sarolangun, Jambi 37481</p>
+            </div>
+            <div>
+                <h4 class="text-white font-extrabold text-base mb-3">Metode Pembayaran</h4>
+                <p class="leading-relaxed">Menerima Transfer Bank (BCA, Mandiri, BRI, BNI), QRIS, E-Wallet (Gopay, OVO, DANA, ShopeePay), dan Cash On Delivery (COD).</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-maroon-800/80 text-center text-amber-200/50">
+            &copy; 2026 Pondok Uni Kito. Seluruh hak cipta dilindungi.
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // DATA MENU CATALOGUE
+        // =========================================================================
+        const menuData = [
+            {
+                id: 'm1',
+                name: 'Gulai Rebung Kepala Ikan Baung',
+                category: 'ikan',
+                priceMin: 110000,
+                priceMax: 130000,
+                priceDisplay: 'Rp 110.000 - 130.000',
+                desc: 'Kepala Ikan Baung segar dimasak gulai rebung khas Minang dengan kuah gurih dan aroma rempah kuat.',
+                image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80',
+                rating: 4.9,
+                reviewsCount: 28
+            },
+            {
+                id: 'm2',
+                name: 'Tempoyak Kepala Ikan Baung',
+                category: 'ikan',
+                priceMin: 110000,
+                priceMax: 130000,
+                priceDisplay: 'Rp 110.000 - 130.000',
+                desc: 'Olahan tradisional kepala ikan baung bersatu dengan gurih pedas manis khas durian tempoyak pilihan.',
+                image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80',
+                rating: 5.0,
+                reviewsCount: 34
+            },
+            {
+                id: 'm3',
+                name: 'Gulai Ayam Kampung',
+                category: 'ayam',
+                priceMin: 40000,
+                priceMax: 50000,
+                priceDisplay: 'Rp 40.000 - 50.000',
+                desc: 'Ayam kampung pilihan empuk direbus lama dengan kuah gulai santan kental yang kaya bumbu.',
+                image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80',
+                rating: 4.8,
+                reviewsCount: 19
+            },
+            {
+                id: 'm4',
+                name: 'Goreng Ayam Kampung',
+                category: 'ayam',
+                priceMin: 40000,
+                priceMax: 50000,
+                priceDisplay: 'Rp 40.000 - 50.000',
+                desc: 'Ayam kampung digoreng garing di luar namun gurih & lembut di dalam, disajikan dengan bumbu rempah.',
+                image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
+                rating: 4.7,
+                reviewsCount: 22
+            },
+            {
+                id: 'm5',
+                name: 'Gulai Ayam Potong',
+                category: 'ayam',
+                priceMin: 20000,
+                priceMax: 20000,
+                priceDisplay: 'Rp 20.000',
+                desc: 'Ayam potong segar berbalut gulai kuning nikmat cocok disandingkan dengan nasi hangat.',
+                image: 'https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?auto=format&fit=crop&w=600&q=80',
+                rating: 4.6,
+                reviewsCount: 15
+            },
+            {
+                id: 'm6',
+                name: 'Gulai Rebung Ikan Baung',
+                category: 'ikan',
+                priceMin: 40000,
+                priceMax: 50000,
+                priceDisplay: 'Rp 40.000 - 50.000',
+                desc: 'Daging ikan baung pilihan paduan rebung renyah dalam kuah gulai cita rasa otentik.',
+                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+                rating: 4.9,
+                reviewsCount: 17
+            },
+            {
+                id: 'm7',
+                name: 'Tempoyak Ikan Baung',
+                category: 'ikan',
+                priceMin: 40000,
+                priceMax: 50000,
+                priceDisplay: 'Rp 40.000 - 50.000',
+                desc: 'Daging ikan baung berkuah tempoyak fermentasi durian yang asam, gurih, dan pedas meresap.',
+                image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80',
+                rating: 4.8,
+                reviewsCount: 21
+            },
+            {
+                id: 'm8',
+                name: 'Sambal Terong Tempe',
+                category: 'pendamping',
+                priceMin: 5000,
+                priceMax: 10000,
+                priceDisplay: 'Rp 5.000 - 10.000',
+                desc: 'Pendamping makan terong goreng & tempe balado pedas manis yang menggugah selera.',
+                image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
+                rating: 4.7,
+                reviewsCount: 12
+            },
+            {
+                id: 'm9',
+                name: 'Dendeng Batokok Cabai Merah',
+                category: 'ayam', // Categorized in main meats
+                priceMin: 40000,
+                priceMax: 40000,
+                priceDisplay: 'Rp 40.000',
+                desc: 'Daging sapi batokok empuk bertabur ulekan cabai merah basah khas Sumatra.',
+                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+                rating: 5.0,
+                reviewsCount: 42
+            },
+            {
+                id: 'm10',
+                name: 'Ayam Potong Cabai Merah',
+                category: 'ayam',
+                priceMin: 20000,
+                priceMax: 20000,
+                priceDisplay: 'Rp 20.000',
+                desc: 'Ayam goreng dengan topping sambal cabai merah balado renyah menggoda.',
+                image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
+                rating: 4.6,
+                reviewsCount: 14
+            },
+            {
+                id: 'm11',
+                name: 'Ayam Potong Serundeng',
+                category: 'ayam',
+                priceMin: 20000,
+                priceMax: 20000,
+                priceDisplay: 'Rp 20.000',
+                desc: 'Ayam goreng gurih bertabur serundeng kelapa sangrai harum beraroma rempah.',
+                image: 'https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?auto=format&fit=crop&w=600&q=80',
+                rating: 4.7,
+                reviewsCount: 16
+            },
+            {
+                id: 'm12',
+                name: 'Es Teh Manis',
+                category: 'minuman',
+                priceMin: 10000,
+                priceMax: 10000,
+                priceDisplay: 'Rp 10.000',
+                desc: 'Es teh manis segar pelepas dahaga dari daun teh pilihan.',
+                image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80',
+                rating: 4.8,
+                reviewsCount: 30
+            },
+            {
+                id: 'm13',
+                name: 'Teh Manis Panas / Hangat',
+                category: 'minuman',
+                priceMin: 5000,
+                priceMax: 5000,
+                priceDisplay: 'Rp 5.000',
+                desc: 'Teh hangat penyegar suasana nikmat disantap bersama hidangan gulai.',
+                image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80',
+                rating: 4.7,
+                reviewsCount: 18
+            },
+            {
+                id: 'm14',
+                name: 'Es Jeruk Segar',
+                category: 'minuman',
+                priceMin: 10000,
+                priceMax: 10000,
+                priceDisplay: 'Rp 10.000',
+                desc: 'Perasan jeruk peras murni dengan es batu dingin yang menyegarkan.',
+                image: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80',
+                rating: 4.9,
+                reviewsCount: 25
+            },
+            {
+                id: 'm15',
+                name: 'Jeruk Panas / Hangat',
+                category: 'minuman',
+                priceMin: 5000,
+                priceMax: 5000,
+                priceDisplay: 'Rp 5.000',
+                desc: 'Perasan jeruk asli disajikan hangat kaya akan vitamin C.',
+                image: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=600&q=80',
+                rating: 4.8,
+                reviewsCount: 11
+            }
+        ];
+
+        // Sample General Testimonials
+        let customerReviews = [
+            { name: 'Budi Santoso', rating: 5, comment: 'Gulai Rebung Kepala Ikan Baungnya juara sekali! Kuahnya kental gurih, tidak amis sama sekali.' },
+            { name: 'Rina Wijaya', rating: 5, comment: 'Tempoyak Ikan Baung mantap pedas manis asamnya pas. Pelayanan delivery cepat sampai di Sarolangun!' },
+            { name: 'Haji Aris', rating: 4, comment: 'Dendeng Batokok cabai merahnya empuk basah pedas nikmat. Tempat langganan keluarga.' }
+        ];
+
+        // State Management
+        let cart = [];
+        let selectedProductRating = 5;
+
+        // =========================================================================
+        // DOM INITIALIZATION
+        // =========================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            renderMenuCatalogue('semua');
+            renderTestimonials();
+            initDarkMode();
+        });
+
+        // =========================================================================
+        // DARK MODE TOGGLE LOGIC
+        // =========================================================================
+        function initDarkMode() {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                lightIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                darkIcon.classList.remove('hidden');
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                darkIcon.classList.toggle('hidden');
+                lightIcon.classList.toggle('hidden');
+
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Filter Categories
+        function filterCategory(cat) {
+            document.querySelectorAll('#category-filters button').forEach(btn => {
+                if (btn.getAttribute('data-category') === cat) {
+                    btn.className = 'cat-btn active px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-maroon-600 text-white shadow-sm';
+                } else {
+                    btn.className = 'cat-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-amber-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700';
+                }
+            });
+            renderMenuCatalogue(cat);
+        }
+
+        // =========================================================================
+        // RENDER MENU CARDS
+        // =========================================================================
+        function renderMenuCatalogue(categoryFilter) {
+            const grid = document.getElementById('menu-grid');
+            grid.innerHTML = '';
+
+            const filtered = categoryFilter === 'semua' 
+                ? menuData 
+                : menuData.filter(item => item.category === categoryFilter);
+
+            filtered.forEach(item => {
+                const hasPriceRange = item.priceMin !== item.priceMax;
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-amber-200/50 dark:border-gray-800 flex flex-col justify-between group';
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/600x400/981b1e/ffffff?text=Pondok+Uni+Kito'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-amber-500 text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow">
+                                <i class="fas fa-star"></i> ${item.rating} (${item.reviewsCount})
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100 leading-snug">${item.name}</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 line-clamp-2 leading-relaxed">${item.desc}</p>
+                            
+                            <div class="mt-4 flex items-baseline gap-1">
+                                <span class="font-extrabold text-base text-maroon-600 dark:text-gold-400">${item.priceDisplay}</span>
+                            </div>
+
+                            ${hasPriceRange ? `
+                                <div class="mt-2">
+                                    <label class="text-[10px] uppercase font-bold text-gray-400 block mb-1">Pilih Varian Porsi/Ukuran:</label>
+                                    <select id="price-select-${item.id}" class="w-full text-xs p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+                                        <option value="${item.priceMin}">Porsi Standar - Rp ${item.priceMin.toLocaleString('id-ID')}</option>
+                                        <option value="${item.priceMax}">Porsi Spesial/Jumbo - Rp ${item.priceMax.toLocaleString('id-ID')}</option>
+                                    </select>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <div class="p-5 pt-0 flex gap-2">
+                        <button onclick="addToCart('${item.id}')" class="flex-1 py-2.5 bg-maroon-600 hover:bg-maroon-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition-colors">
+                            <i class="fas fa-plus"></i> Tambah
+                        </button>
+                        <button onclick="openProductReviewModal('${item.id}', '${item.name}')" class="p-2.5 border border-amber-300 dark:border-gray-700 text-amber-700 dark:text-gold-400 hover:bg-amber-50 dark:hover:bg-gray-800 rounded-xl text-xs" title="Tulis Ulasan">
+                            <i class="fas fa-comment-dots text-base"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // =========================================================================
+        // SHOPPING CART MANAGEMENT
+        // =========================================================================
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+            renderCartItems();
+        }
+
+        function addToCart(itemId) {
+            const item = menuData.find(m => m.id === itemId);
+            if (!item) return;
+
+            let selectedPrice = item.priceMin;
+            const selectEl = document.getElementById(`price-select-${itemId}`);
+            if (selectEl) {
+                selectedPrice = parseInt(selectEl.value);
+            }
+
+            const cartKey = `${item.id}-${selectedPrice}`;
+            const existing = cart.find(c => c.cartKey === cartKey);
+
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    cartKey: cartKey,
+                    id: item.id,
+                    name: item.name,
+                    price: selectedPrice,
+                    qty: 1
+                });
+            }
+
+            updateCartBadge();
+            
+            // Visual feedback animation
+            const badge = document.getElementById('cart-count-badge');
+            badge.classList.add('scale-125');
+            setTimeout(() => badge.classList.remove('scale-125'), 200);
+        }
+
+        function updateCartBadge() {
+            const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
+            document.getElementById('cart-count-badge').innerText = totalCount;
+        }
+
+        function updateItemQty(cartKey, delta) {
+            const index = cart.findIndex(c => c.cartKey === cartKey);
+            if (index !== -1) {
+                cart[index].qty += delta;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total-price');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400 space-y-3">
+                        <i class="fas fa-shopping-basket text-4xl text-amber-300 dark:text-gray-700"></i>
+                        <p class="text-sm">Keranjang belanja Anda masih kosong.</p>
+                    </div>
+                `;
+                totalEl.innerText = 'Rp 0';
+                return;
+            }
+
+            container.innerHTML = '';
+            let grandTotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                grandTotal += itemTotal;
+
+                const row = document.createElement('div');
+                row.className = 'p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-between gap-3 text-xs';
+                row.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-bold text-gray-800 dark:text-gray-100">${item.name}</h4>
+                        <p class="text-gray-500">@ Rp ${item.price.toLocaleString('id-ID')}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="updateItemQty('${item.cartKey}', -1)" class="w-6 h-6 rounded bg-gray-200 dark:bg-gray-700 font-bold text-gray-700 dark:text-gray-200">-</button>
+                        <span class="font-bold text-sm w-4 text-center">${item.qty}</span>
+                        <button onclick="updateItemQty('${item.cartKey}', 1)" class="w-6 h-6 rounded bg-gray-200 dark:bg-gray-700 font-bold text-gray-700 dark:text-gray-200">+</button>
+                    </div>
+                    <span class="font-bold text-maroon-600 dark:text-gold-400 w-20 text-right">Rp ${itemTotal.toLocaleString('id-ID')}</span>
+                `;
+                container.appendChild(row);
+            });
+
+            totalEl.innerText = `Rp ${grandTotal.toLocaleString('id-ID')}`;
+        }
+
+        function toggleAddressField(isDelivery) {
+            const addrInput = document.getElementById('cust-address');
+            if (isDelivery) {
+                addrInput.style.display = 'block';
+            } else {
+                addrInput.style.display = 'none';
+            }
+        }
+
+        // =========================================================================
+        // WHATSAPP DIRECT ORDER PROCESSOR
+        // =========================================================================
+        function processOrderWhatsApp() {
+            if (cart.length === 0) {
+                alert('Keranjang belanja Anda kosong. Silakan pilih menu terlebih dahulu!');
+                return;
+            }
+
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+            const payment = document.getElementById('payment-method').value;
+            const orderType = document.querySelector('input[name="order_type"]:checked').value;
+
+            if (!name || !phone) {
+                alert('Harap isi Nama Lengkap dan Nomor Whatsapp Anda!');
+                return;
+            }
+
+            if (orderType === 'Delivery' && !address) {
+                alert('Harap isi Alamat Lengkap Pengiriman!');
+                return;
+            }
+
+            let grandTotal = 0;
+            let itemListText = '';
+
+            cart.forEach((item, idx) => {
+                const subtotal = item.price * item.qty;
+                grandTotal += subtotal;
+                itemListText += `${idx + 1}. ${item.name} (${item.qty}x) = Rp ${subtotal.toLocaleString('id-ID')}\n`;
+            });
+
+            const randomOrderId = 'PUK-' + Math.floor(1000 + Math.random() * 9000);
+
+            let message = `*PESANAN BARU - PONDOK UNI KITO*\n`;
+            message += `*Kode ID Pesanan:* ${randomOrderId}\n\n`;
+            message += `*Detail Pemesan:*\n`;
+            message += `- Nama: ${name}\n`;
+            message += `- No. WA: ${phone}\n`;
+            message += `- Layanan: *${orderType}*\n`;
+            if (orderType === 'Delivery') {
+                message += `- Alamat: ${address}\n`;
+            } else {
+                message += `- Catatan: Penjemputan Mandiri di Gerai Bernai\n`;
+            }
+            message += `- Metode Pembayaran: *${payment}*\n\n`;
+            message += `*Rincian Menu:*\n${itemListText}\n`;
+            message += `*TOTAL PEMBAYARAN: Rp ${grandTotal.toLocaleString('id-ID')}*\n\n`;
+            message += `Mohon konfirmasi pesanan dan estimasi penyiapan. Terima kasih!`;
+
+            const encodedMsg = encodeURIComponent(message);
+            
+            // Primary Admin WA: +6282178261466
+            const whatsappUrl = `https://wa.me/6282178261466?text=${encodedMsg}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // =========================================================================
+        // REAL-TIME ORDER TRACKING SIMULATOR
+        // =========================================================================
+        function simulateTracking() {
+            const inputVal = document.getElementById('track-id-input').value.trim() || 'PUK-8821';
+            document.getElementById('track-order-code').innerText = inputVal.toUpperCase();
+            
+            const progressBar = document.getElementById('track-progress-bar');
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+            const step4 = document.getElementById('step-4');
+
+            // Reset step UI
+            progressBar.style.width = '50%';
+            
+            alert(`Sistem memperbarui status untuk ID Pesanan: ${inputVal.toUpperCase()}`);
+        }
+
+        // =========================================================================
+        // PRODUCT REVIEWS LOGIC
+        // =========================================================================
+        function renderTestimonials() {
+            const container = document.getElementById('reviews-container');
+            container.innerHTML = '';
+
+            customerReviews.forEach(rev => {
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-amber-200/50 dark:border-gray-800 space-y-3';
+                
+                let starsHtml = '';
+                for (let i = 0; i < 5; i++) {
+                    starsHtml += `<i class="fas fa-star ${i < rev.rating ? 'text-amber-400' : 'text-gray-300 dark:text-gray-700'} text-xs"></i>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-sm text-gray-900 dark:text-gray-100">${rev.name}</span>
+                        <div class="flex gap-1">${starsHtml}</div>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">"${rev.comment}"</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openProductReviewModal(productId, productName) {
+            document.getElementById('review-product-id').value = productId;
+            document.getElementById('review-product-title').innerText = `Ulasan untuk: ${productName}`;
+            setRating(5);
+            document.getElementById('item-review-modal').classList.remove('hidden');
+        }
+
+        function closeProductReviewModal() {
+            document.getElementById('item-review-modal').classList.add('hidden');
+        }
+
+        function setRating(r) {
+            selectedProductRating = r;
+            const stars = document.querySelectorAll('#star-rating-selector i');
+            stars.forEach((s, idx) => {
+                if (idx < r) {
+                    s.className = 'fas fa-star cursor-pointer hover:scale-110 transition-transform text-amber-400';
+                } else {
+                    s.className = 'far fa-star cursor-pointer hover:scale-110 transition-transform text-amber-400';
+                }
+            });
+        }
+
+        function submitProductReview(e) {
+            e.preventDefault();
+            const name = document.getElementById('reviewer-name').value;
+            const comment = document.getElementById('reviewer-comment').value;
+
+            customerReviews.unshift({
+                name: name,
+                rating: selectedProductRating,
+                comment: comment
+            });
+
+            renderTestimonials();
+            closeProductReviewModal();
+            alert('Terima kasih! Ulasan Anda telah berhasil dipublikasikan.');
+        }
+
+        // =========================================================================
+        // LIVE CHATBOT SIMULATION LOGIC
+        // =========================================================================
+        function toggleLiveChat() {
+            const chatBox = document.getElementById('live-chat-box');
+            chatBox.classList.toggle('hidden');
+        }
+
+        function sendChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const messagesContainer = document.getElementById('chat-messages');
+
+            // User Message Bubble
+            const userBubble = document.createElement('div');
+            userBubble.className = 'bg-maroon-600 text-white p-2.5 rounded-xl shadow-sm max-w-[85%] ml-auto text-xs';
+            userBubble.innerText = msg;
+            messagesContainer.appendChild(userBubble);
+
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Simulated Auto Admin Response
+            setTimeout(() => {
+                const adminBubble = document.createElement('div');
+                adminBubble.className = 'bg-white dark:bg-gray-800 p-2.5 rounded-xl border border-amber-100 dark:border-gray-700 shadow-sm max-w-[85%] text-xs';
+                adminBubble.innerText = 'Terima kasih telah menghubungi Pondok Uni Kito. Pesan Anda telah diteruskan ke Admin. Anda juga dapat menghubungi kami langsung via WA ke +6282178261466!';
+                messagesContainer.appendChild(adminBubble);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
